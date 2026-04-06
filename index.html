@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Microlearn">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Microlearn</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0a;
+  --card-bg: #161616;
+  --text: #e8e8e8;
+  --text-dim: #888;
+  --accent: #6c9fff;
+  --accent-dim: #3a5a8a;
+  --example-bg: #1a1a2e;
+  --probe-bg: #1a2e1a;
+  --safe-top: env(safe-area-inset-top, 20px);
+  --safe-bottom: env(safe-area-inset-bottom, 20px);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+  height: 100dvh;
+  overflow: hidden;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.app {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding-top: var(--safe-top);
+  padding-bottom: var(--safe-bottom);
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  flex-shrink: 0;
+}
+
+.header h1 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-dim);
+  letter-spacing: 0.5px;
+}
+
+.progress {
+  font-size: 13px;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Card area */
+.card-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.card {
+  width: 100%;
+  max-width: 400px;
+  min-height: 420px;
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  touch-action: pan-y;
+}
+
+.card.swipe-left {
+  transform: translateX(-120%) rotate(-8deg);
+  opacity: 0;
+}
+
+.card.swipe-right {
+  transform: translateX(120%) rotate(8deg);
+  opacity: 0;
+}
+
+.card.enter {
+  transform: translateX(60px);
+  opacity: 0;
+}
+
+/* Card phases */
+.phase-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 20px;
+}
+
+.phase-idea .phase-label { color: var(--accent); }
+.phase-example .phase-label { color: #b8a9ff; }
+.phase-probe .phase-label { color: #7cd4a0; }
+
+.card-topic {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+
+.card-title {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 20px;
+}
+
+.card-body {
+  font-size: 16px;
+  line-height: 1.65;
+  color: #ccc;
+  flex: 1;
+}
+
+.card-body code {
+  background: #222;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 14px;
+  color: var(--accent);
+}
+
+.card-body pre {
+  background: #111;
+  padding: 16px;
+  border-radius: 10px;
+  margin: 14px 0;
+  overflow-x: auto;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #ddd;
+}
+
+.card-body .highlight {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* Phase dots */
+.phase-dots {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.phase-dots .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #333;
+  transition: background 0.2s;
+}
+
+.phase-dots .dot.active {
+  background: var(--accent);
+}
+
+/* Bottom controls */
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 20px;
+  flex-shrink: 0;
+}
+
+.controls button {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  color: var(--text);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.controls button:active {
+  transform: scale(0.92);
+  background: #252525;
+}
+
+.controls .btn-next {
+  width: 64px;
+  height: 64px;
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  font-size: 24px;
+}
+
+/* Topic selector */
+.topic-bar {
+  display: flex;
+  gap: 8px;
+  padding: 4px 20px 8px;
+  overflow-x: auto;
+  flex-shrink: 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.topic-bar::-webkit-scrollbar { display: none; }
+
+.topic-pill {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  color: var(--text-dim);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.topic-pill.active {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-dim);
+}
+
+.empty-state h2 {
+  font-size: 18px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="header">
+    <h1>MICROLEARN</h1>
+    <span class="progress" id="progress"></span>
+  </div>
+
+  <div class="topic-bar" id="topicBar"></div>
+
+  <div class="card-container" id="cardContainer">
+    <div class="card" id="card"></div>
+  </div>
+
+  <div class="controls">
+    <button id="btnPrev" title="Previous card">&#8592;</button>
+    <button class="btn-next" id="btnNext" title="Next">&#8594;</button>
+  </div>
+</div>
+
+<script>
+const CARDS = [
+  {
+    topic: "Pattern Recognition",
+    title: "Patterns are compression",
+    idea: "A pattern is anything that lets you <span class='highlight'>predict what comes next</span> without seeing it. The more accurately you can predict, the deeper the pattern you've found. This is literally what compression algorithms do — find patterns to make data smaller.",
+    example: "The sequence <code>2, 4, 6, 8, ...</code> — you instantly know the next number is 10. Your brain compressed the rule to \"add 2.\" But <code>2, 4, 6, 8, 11, ...</code> breaks the pattern. That discomfort you feel? That's your pattern recognizer screaming.",
+    probe: "A random sequence like <code>7, 3, 9, 1, 5, ...</code> has no pattern — which means it <em>can't be compressed</em>. Does this mean randomness contains the most information? (Surprisingly, yes — this is a real result in information theory.)"
+  },
+  {
+    topic: "Pattern Recognition",
+    title: "Abstraction is pattern extraction",
+    idea: "When you notice the same structure in two different situations, and you name that structure — that's abstraction. It's not about making things vague. It's about <span class='highlight'>extracting the pattern that two concrete things share</span>.",
+    example: "<pre>Sorting a deck of cards\nSorting names alphabetically\nSorting files by date</pre>The concrete details differ completely. But the pattern — <em>compare two things, swap if out of order, repeat</em> — is identical. Naming that pattern \"sorting\" is abstraction.",
+    probe: "If abstraction is pattern extraction, then a <em>bad</em> abstraction is one that groups things by surface similarity rather than shared structure. Can you think of a category that feels natural but groups things that actually work differently?"
+  },
+  {
+    topic: "Pattern Recognition",
+    title: "Invariants: what doesn't change",
+    idea: "The deepest patterns aren't about what changes — they're about <span class='highlight'>what stays the same while everything else changes</span>. These are called invariants, and finding them is the master skill in both math and engineering.",
+    example: "Shuffle a deck of cards however you like. The number of cards stays at 52. That's an invariant. Now: can you shuffle so that every red card has a black card next to it? <em>Knowing the invariant (52 cards, 26 red, 26 black) constrains what's possible.</em>",
+    probe: "In a chess game, pieces move, get captured, positions change constantly. But what's an invariant? (Hint: think about the color of the square a bishop sits on.)"
+  },
+  {
+    topic: "Pattern Recognition",
+    title: "Symmetry is a pattern of sameness",
+    idea: "Symmetry means: you can <span class='highlight'>transform something and it looks the same</span>. This isn't just about mirrors. Rotating a square 90 degrees gives the same shape. Translating a wallpaper pattern gives the same design. Every symmetry is a transformation that preserves structure.",
+    example: "The equation <code>x² + y² = 1</code> (a circle). Swap x and y — still true. Negate x — still true. Rotate by any angle — still true. The circle has <em>infinite</em> symmetry, which is why it shows up everywhere in nature.",
+    probe: "A square has exactly 8 symmetries (4 rotations + 4 reflections). A circle has infinite. What shape has exactly 1 symmetry — only the identity (doing nothing)?"
+  },
+  {
+    topic: "Pattern Recognition",
+    title: "Feedback loops amplify or stabilize",
+    idea: "When the output of a process feeds back as input, you get a loop. <span class='highlight'>Positive feedback amplifies</span> (microphone → speaker → microphone = screech). <span class='highlight'>Negative feedback stabilizes</span> (thermostat detects heat → turns off heater → cools → turns on). Most complex systems are tangles of both.",
+    example: "Social media: you post → get likes → feel good → post more → get more likes. That's positive feedback — it amplifies. But there's also negative feedback: post too much → people unfollow → fewer likes → you post less.",
+    probe: "A bank run is pure positive feedback: one person withdraws → others panic → more withdraw → more panic. What would a negative feedback mechanism look like that could stop it? (This is literally what deposit insurance was designed to be.)"
+  },
+  {
+    topic: "Systems Thinking",
+    title: "Stocks and flows",
+    idea: "Every system has <span class='highlight'>stocks</span> (accumulations — things you can count at a moment) and <span class='highlight'>flows</span> (rates — things you measure per unit time). Confusion between stocks and flows is the #1 cause of bad reasoning about systems.",
+    example: "A bathtub. <strong>Stock:</strong> water in the tub (gallons). <strong>Inflow:</strong> faucet (gallons/minute). <strong>Outflow:</strong> drain (gallons/minute). The water level rises when inflow > outflow. Obvious here — but people confuse stock and flow constantly with money, population, CO₂.",
+    probe: "National debt is a <em>stock</em>. The deficit is a <em>flow</em>. If the deficit drops from $1T to $500B, is the debt going up or down? (Up — the deficit is still positive, so the stock is still growing, just slower.)"
+  },
+  {
+    topic: "Systems Thinking",
+    title: "Emergence: the whole surprises",
+    idea: "When components interact, the system can exhibit behaviors that <span class='highlight'>none of the individual components have</span>. This isn't magic — it's a consequence of the interaction rules. But you can't predict it by studying parts in isolation.",
+    example: "Each neuron in your brain is simple: receive signals, fire or don't. But 86 billion of them interacting produce consciousness, creativity, humor. No single neuron is conscious. Consciousness is an emergent property of their interaction.",
+    probe: "A traffic jam can form even when no one slows down first — just from cars being slightly too close. The jam is \"real\" (you sit in it) but has no physical substance. It's a pattern in the flow. What other emergent things feel real but have no physical form?"
+  },
+  {
+    topic: "Systems Thinking",
+    title: "Delay causes oscillation",
+    idea: "When there's a <span class='highlight'>delay between action and effect</span>, systems overshoot. You keep pushing because you haven't seen the result yet. Then the result arrives all at once, so you overcorrect. This creates oscillation — swinging back and forth.",
+    example: "A shower with slow pipes. You turn the hot knob — nothing happens. Turn more. Still cold. Turn more. Suddenly: scalding. You crank it cold. Wait. Still hot. Crank more. Then: freezing. The delay between your action and the temperature change causes you to oscillate.",
+    probe: "Central banks raise interest rates to cool inflation. But rate changes take 12-18 months to fully affect the economy. How does this delay make monetary policy inherently oscillatory? (And what does the Fed do to compensate?)"
+  },
+  {
+    topic: "Math Intuition",
+    title: "Logarithms are about orders of magnitude",
+    idea: "A logarithm answers: <span class='highlight'>how many times do I multiply?</span> That's it. <code>log₁₀(1000) = 3</code> because 10 × 10 × 10 = 1000. Logarithms turn multiplication into addition and turn exponential growth into straight lines. That's why they're everywhere.",
+    example: "<pre>1       → log₁₀ = 0\n10      → log₁₀ = 1\n100     → log₁₀ = 2\n1,000   → log₁₀ = 3\n1,000,000 → log₁₀ = 6</pre>Each step is 10× bigger, but the log only goes up by 1. This is how your ears work — a sound 10× more powerful sounds only \"one step\" louder. Decibels are logarithmic.",
+    probe: "The Richter scale is logarithmic. A magnitude 7 earthquake is <em>10 times</em> more powerful than a 6, and <em>100 times</em> more than a 5. Why would scientists choose a scale that hides how dramatic the differences really are?"
+  },
+  {
+    topic: "Math Intuition",
+    title: "Exponential growth: the doubling trick",
+    idea: "Anything growing by a <span class='highlight'>fixed percentage</span> is growing exponentially. The key intuition: use the <strong>Rule of 72</strong>. Divide 72 by the growth rate to get the doubling time. 6% growth? Doubles in 12 years. 1% growth? 72 years.",
+    example: "If a city grows at 3% per year, it doubles in 72 ÷ 3 = 24 years. Sounds slow — but doubling means the city needs to build as much infrastructure in the <em>next</em> 24 years as it built in its <em>entire history</em>. That's why exponential growth is hard to manage.",
+    probe: "Bacteria double every 20 minutes. Start with one. After 10 hours (30 doublings): 2³⁰ ≈ 1 billion. After 10.5 hours (just 3 more doublings): 8 billion. Why does the last half-hour matter more than the first 9 hours?"
+  },
+  {
+    topic: "Math Intuition",
+    title: "Probability: updating beliefs",
+    idea: "Probability isn't about coins and dice — it's a <span class='highlight'>language for reasoning under uncertainty</span>. The core move: you have a belief (prior), you see evidence, you update. This is Bayes' theorem, and it's how rational thinking works.",
+    example: "You hear hoofbeats. Prior belief: probably horses (you're in Texas). But you're at the zoo. Updated belief: maybe zebras. You see black-and-white stripes through the fence. Updated again: almost certainly zebras. Each piece of evidence shifts your belief.",
+    probe: "A medical test is 99% accurate. You test positive for a disease that affects 1 in 10,000 people. What's the chance you actually have it? (It's much lower than 99% — work through why. This is the most common probability mistake people make.)"
+  },
+  {
+    topic: "Programming Concepts",
+    title: "Recursion: self-reference that bottoms out",
+    idea: "Recursion is when something is <span class='highlight'>defined in terms of a smaller version of itself</span>, plus a base case that stops it. Without the base case, you get infinite regress. With it, you get an elegant way to solve problems that have nested structure.",
+    example: "<pre>How to count people in a line:\n1. If no one is in front of you: say \"1\"\n2. Otherwise: ask the person ahead\n   to count, then add 1</pre>Each person solves a smaller problem (shorter line) until someone hits the base case (no one ahead). The answer builds up as the calls return.",
+    probe: "Russian nesting dolls are recursive — each contains a smaller version of itself. File system folders are recursive — each can contain more folders. What makes some problems <em>naturally</em> recursive vs. just loopy?"
+  },
+  {
+    topic: "Programming Concepts",
+    title: "State: the hidden variable",
+    idea: "A function with no state always gives the same output for the same input. A function <em>with</em> state can give <span class='highlight'>different outputs depending on what happened before</span>. Most bugs come from unexpected state. Most complexity comes from managing it.",
+    example: "A light switch: same input (flip), different output (on → off, off → on). The switch has <em>state</em> — it remembers whether it's on or off. A calculator with a memory button has state. A pure math function like sin(x) does not.",
+    probe: "A traffic light cycles green → yellow → red → green. It's stateful — the next color depends on the current one. But the <em>sequence</em> is fixed. Is a traffic light more or less complex than a light switch? What makes state hard to reason about?"
+  },
+  {
+    topic: "Programming Concepts",
+    title: "Indirection: the power of one more layer",
+    idea: "\"Any problem in CS can be solved by adding another level of indirection.\" Instead of pointing to the thing, <span class='highlight'>point to something that points to the thing</span>. This lets you change what the pointer targets without changing everything that uses it.",
+    example: "Your contact list has phone numbers. But people change numbers. DNS: you type <code>google.com</code>, not <code>142.250.80.46</code>. The name is indirection — it can point to different servers without you knowing. Variables in code: the name <code>x</code> is indirection over a memory address.",
+    probe: "Every URL is indirection (name → IP). Every variable name is indirection (name → value). Every API is indirection (interface → implementation). What's the cost of all this indirection? When does adding another layer make things worse?"
+  }
+];
+
+// State
+let currentTopic = 'all';
+let currentIndex = 0;
+let currentPhase = 0; // 0=idea, 1=example, 2=probe
+const PHASES = ['idea', 'example', 'probe'];
+const PHASE_LABELS = ['Idea', 'Example', 'Think about it'];
+
+// Load saved state
+function loadState() {
+  try {
+    const s = JSON.parse(localStorage.getItem('microlearn_state'));
+    if (s) {
+      currentIndex = s.index || 0;
+      currentPhase = s.phase || 0;
+      currentTopic = s.topic || 'all';
+    }
+  } catch(e) {}
+}
+
+function saveState() {
+  localStorage.setItem('microlearn_state', JSON.stringify({
+    index: currentIndex,
+    phase: currentPhase,
+    topic: currentTopic
+  }));
+}
+
+function getFilteredCards() {
+  if (currentTopic === 'all') return CARDS;
+  return CARDS.filter(c => c.topic === currentTopic);
+}
+
+function getTopics() {
+  return ['all', ...new Set(CARDS.map(c => c.topic))];
+}
+
+function renderTopicBar() {
+  const bar = document.getElementById('topicBar');
+  bar.innerHTML = getTopics().map(t =>
+    `<div class="topic-pill ${t === currentTopic ? 'active' : ''}" data-topic="${t}">${t === 'all' ? 'All' : t}</div>`
+  ).join('');
+
+  bar.querySelectorAll('.topic-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      currentTopic = pill.dataset.topic;
+      currentIndex = 0;
+      currentPhase = 0;
+      renderTopicBar();
+      renderCard();
+      saveState();
+    });
+  });
+}
+
+function renderCard(animation) {
+  const cards = getFilteredCards();
+  const card = document.getElementById('card');
+  const progress = document.getElementById('progress');
+
+  if (cards.length === 0) {
+    card.innerHTML = `<div class="empty-state"><h2>No cards</h2><p>Select a different topic</p></div>`;
+    progress.textContent = '';
+    return;
+  }
+
+  if (currentIndex >= cards.length) currentIndex = 0;
+  if (currentIndex < 0) currentIndex = cards.length - 1;
+
+  const c = cards[currentIndex];
+  const phase = PHASES[currentPhase];
+
+  if (animation) {
+    card.classList.add(animation);
+    setTimeout(() => {
+      card.classList.remove(animation);
+      card.classList.add('enter');
+      updateCardContent(card, c, phase);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          card.classList.remove('enter');
+        });
+      });
+    }, 250);
+  } else {
+    updateCardContent(card, c, phase);
+  }
+
+  progress.textContent = `${currentIndex + 1} / ${cards.length}`;
+  saveState();
+}
+
+function updateCardContent(card, c, phase) {
+  card.className = `card phase-${phase}`;
+  card.innerHTML = `
+    <span class="phase-label">${PHASE_LABELS[PHASES.indexOf(phase)]}</span>
+    <span class="card-topic">${c.topic}</span>
+    <h2 class="card-title">${c.title}</h2>
+    <div class="card-body">${c[phase]}</div>
+    <div class="phase-dots">
+      ${PHASES.map((p, i) => `<div class="dot ${i === currentPhase ? 'active' : ''}"></div>`).join('')}
+    </div>
+  `;
+}
+
+function next() {
+  if (currentPhase < 2) {
+    currentPhase++;
+    renderCard();
+  } else {
+    currentPhase = 0;
+    currentIndex++;
+    renderCard('swipe-left');
+  }
+}
+
+function prev() {
+  if (currentPhase > 0) {
+    currentPhase--;
+    renderCard();
+  } else if (currentIndex > 0) {
+    currentPhase = 2;
+    currentIndex--;
+    renderCard('swipe-right');
+  }
+}
+
+// Touch handling
+let touchStartX = 0;
+let touchStartY = 0;
+
+document.getElementById('cardContainer').addEventListener('touchstart', e => {
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+
+document.getElementById('cardContainer').addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  const dy = e.changedTouches[0].clientY - touchStartY;
+
+  if (Math.abs(dx) < 30 && Math.abs(dy) < 30) {
+    // Tap — advance phase
+    next();
+    return;
+  }
+
+  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+    if (dx < 0) next();
+    else prev();
+  }
+});
+
+// Keyboard
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') next();
+  if (e.key === 'ArrowLeft') prev();
+});
+
+// Buttons
+document.getElementById('btnNext').addEventListener('click', next);
+document.getElementById('btnPrev').addEventListener('click', prev);
+
+// Init
+loadState();
+renderTopicBar();
+renderCard();
+
+// Register service worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
+</script>
+</body>
+</html>
