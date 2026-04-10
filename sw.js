@@ -1,5 +1,12 @@
-const CACHE = 'microlearn-v1';
-const ASSETS = ['/', '/microlearn/', '/microlearn/index.html', '/microlearn/manifest.json'];
+const CACHE = 'microlearn-v2';
+const ASSETS = [
+  './',
+  './index.html',
+  './cards.json',
+  './manifest.json',
+  './icon-192.png',
+  './icon-512.png',
+];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));
@@ -16,7 +23,21 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
-  e.respondWith(
-    fetch(e.request).catch(() => caches.match(e.request))
-  );
+  // Network first for cards.json (pick up new cards), cache fallback for offline
+  if (e.request.url.includes('cards.json')) {
+    e.respondWith(
+      fetch(e.request)
+        .then(res => {
+          const clone = res.clone();
+          caches.open(CACHE).then(c => c.put(e.request, clone));
+          return res;
+        })
+        .catch(() => caches.match(e.request))
+    );
+  } else {
+    // Cache first for static assets
+    e.respondWith(
+      caches.match(e.request).then(cached => cached || fetch(e.request))
+    );
+  }
 });

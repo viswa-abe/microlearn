@@ -1,0 +1,6 @@
+name: "Emergence: the whole surprises"
+cluster: systems-thinking
+depth: 1
+connections:
+  - {to: feedback-loops-amplify-or-stabilize, weight: 0.7}
+  - {to: stocks-and-flows, weight: 0.6}

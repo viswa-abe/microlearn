@@ -1,0 +1,7 @@
+name: "State: the hidden variable"
+cluster: programming-concepts
+depth: 1
+connections:
+  - {to: recursion-self-reference-that-bottoms-out, weight: 0.7}
+  - {to: indirection-the-power-of-one-more-layer, weight: 0.7}
+  - {to: feedback-loops-amplify-or-stabilize, weight: 0.6}

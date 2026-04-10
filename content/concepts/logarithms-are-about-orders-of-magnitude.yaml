@@ -1,0 +1,6 @@
+name: Logarithms are about orders of magnitude
+cluster: math-intuition
+depth: 1
+connections:
+  - {to: exponential-growth-the-doubling-trick, weight: 0.9}
+  - {to: patterns-are-compression, weight: 0.5}

@@ -1,0 +1,6 @@
+name: "Probability: updating beliefs"
+cluster: math-intuition
+depth: 1
+connections:
+  - {to: exponential-growth-the-doubling-trick, weight: 0.5}
+  - {to: logarithms-are-about-orders-of-magnitude, weight: 0.5}

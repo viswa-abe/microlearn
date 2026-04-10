@@ -1,0 +1,7 @@
+name: "Recursion: self-reference that bottoms out"
+cluster: programming-concepts
+depth: 1
+connections:
+  - {to: state-the-hidden-variable, weight: 0.7}
+  - {to: indirection-the-power-of-one-more-layer, weight: 0.7}
+  - {to: abstraction-is-pattern-extraction, weight: 0.6}

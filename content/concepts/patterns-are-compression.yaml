@@ -1,0 +1,6 @@
+name: Patterns are compression
+cluster: pattern-recognition
+depth: 1
+connections:
+  - {to: abstraction-is-pattern-extraction, weight: 0.8}
+  - {to: invariants-what-doesnt-change, weight: 0.7}

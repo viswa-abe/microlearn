@@ -1,0 +1,6 @@
+name: Stocks and flows
+cluster: systems-thinking
+depth: 1
+connections:
+  - {to: feedback-loops-amplify-or-stabilize, weight: 0.8}
+  - {to: delay-causes-oscillation, weight: 0.7}

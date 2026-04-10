@@ -1,0 +1,6 @@
+name: "Exponential growth: the doubling trick"
+cluster: math-intuition
+depth: 1
+connections:
+  - {to: logarithms-are-about-orders-of-magnitude, weight: 0.9}
+  - {to: probability-updating-beliefs, weight: 0.5}

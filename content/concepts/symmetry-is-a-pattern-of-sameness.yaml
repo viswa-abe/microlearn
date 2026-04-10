@@ -1,0 +1,6 @@
+name: Symmetry is a pattern of sameness
+cluster: pattern-recognition
+depth: 1
+connections:
+  - {to: invariants-what-doesnt-change, weight: 0.8}
+  - {to: patterns-are-compression, weight: 0.6}

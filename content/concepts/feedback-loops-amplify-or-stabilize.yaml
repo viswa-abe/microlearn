@@ -1,0 +1,7 @@
+name: Feedback loops amplify or stabilize
+cluster: pattern-recognition
+depth: 1
+connections:
+  - {to: stocks-and-flows, weight: 0.8}
+  - {to: delay-causes-oscillation, weight: 0.8}
+  - {to: emergence-the-whole-surprises, weight: 0.7}

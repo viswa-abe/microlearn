@@ -1,0 +1,7 @@
+name: "Indirection: the power of one more layer"
+cluster: programming-concepts
+depth: 1
+connections:
+  - {to: recursion-self-reference-that-bottoms-out, weight: 0.7}
+  - {to: state-the-hidden-variable, weight: 0.7}
+  - {to: abstraction-is-pattern-extraction, weight: 0.6}

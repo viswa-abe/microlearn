@@ -1,0 +1,6 @@
+name: "Invariants: what doesn't change"
+cluster: pattern-recognition
+depth: 1
+connections:
+  - {to: patterns-are-compression, weight: 0.7}
+  - {to: symmetry-is-a-pattern-of-sameness, weight: 0.8}

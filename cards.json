@@ -1,0 +1,202 @@
+[
+  {
+    "id": "abstraction-is-pattern-extraction-002",
+    "concept": "abstraction-is-pattern-extraction",
+    "title": "Abstraction is pattern extraction",
+    "topic": "Pattern Recognition",
+    "depth": 2,
+    "connections": [
+      "patterns-are-compression",
+      "invariants-what-doesnt-change"
+    ],
+    "idea": "When you notice the same structure in two different situations, and you name that structure -- that's abstraction. It's not about making things vague. It's about **extracting the pattern that two concrete things share**.",
+    "example": "```\nSorting a deck of cards\nSorting names alphabetically\nSorting files by date\n```\nThe concrete details differ completely. But the pattern -- *compare two things, swap if out of order, repeat* -- is identical. Naming that pattern \"sorting\" is abstraction.",
+    "probe": "If abstraction is pattern extraction, then a *bad* abstraction is one that groups things by surface similarity rather than shared structure. Can you think of a category that feels natural but groups things that actually work differently?"
+  },
+  {
+    "id": "delay-causes-oscillation-008",
+    "concept": "delay-causes-oscillation",
+    "title": "Delay causes oscillation",
+    "topic": "Systems Thinking",
+    "depth": 3,
+    "connections": [
+      "feedback-loops-amplify-or-stabilize",
+      "stocks-and-flows"
+    ],
+    "idea": "When there's a **delay between action and effect**, systems overshoot. You keep pushing because you haven't seen the result yet. Then the result arrives all at once, so you overcorrect. This creates oscillation -- swinging back and forth.",
+    "example": "A shower with slow pipes. You turn the hot knob -- nothing happens. Turn more. Still cold. Turn more. Suddenly: scalding. You crank it cold. Wait. Still hot. Crank more. Then: freezing. The delay between your action and the temperature change causes you to oscillate.",
+    "probe": "Central banks raise interest rates to cool inflation. But rate changes take 12-18 months to fully affect the economy. How does this delay make monetary policy inherently oscillatory? (And what does the Fed do to compensate?)"
+  },
+  {
+    "id": "emergence-the-whole-surprises-007",
+    "concept": "emergence-the-whole-surprises",
+    "title": "Emergence: the whole surprises",
+    "topic": "Systems Thinking",
+    "depth": 2,
+    "connections": [
+      "feedback-loops-amplify-or-stabilize",
+      "stocks-and-flows"
+    ],
+    "idea": "When components interact, the system can exhibit behaviors that **none of the individual components have**. This isn't magic -- it's a consequence of the interaction rules. But you can't predict it by studying parts in isolation.",
+    "example": "Each neuron in your brain is simple: receive signals, fire or don't. But 86 billion of them interacting produce consciousness, creativity, humor. No single neuron is conscious. Consciousness is an emergent property of their interaction.",
+    "probe": "A traffic jam can form even when no one slows down first -- just from cars being slightly too close. The jam is \"real\" (you sit in it) but has no physical substance. It's a pattern in the flow. What other emergent things feel real but have no physical form?"
+  },
+  {
+    "id": "exponential-growth-the-doubling-trick-010",
+    "concept": "exponential-growth-the-doubling-trick",
+    "title": "Exponential growth: the doubling trick",
+    "topic": "Math Intuition",
+    "depth": 2,
+    "connections": [
+      "logarithms-are-about-orders-of-magnitude",
+      "probability-updating-beliefs"
+    ],
+    "idea": "Anything growing by a **fixed percentage** is growing exponentially. The key intuition: use the **Rule of 72**. Divide 72 by the growth rate to get the doubling time. 6% growth? Doubles in 12 years. 1% growth? 72 years.",
+    "example": "If a city grows at 3% per year, it doubles in 72 / 3 = 24 years. Sounds slow -- but doubling means the city needs to build as much infrastructure in the *next* 24 years as it built in its *entire history*. That's why exponential growth is hard to manage.",
+    "probe": "Bacteria double every 20 minutes. Start with one. After 10 hours (30 doublings): 2^30 ~ 1 billion. After 10.5 hours (just 3 more doublings): 8 billion. Why does the last half-hour matter more than the first 9 hours?"
+  },
+  {
+    "id": "feedback-loops-amplify-or-stabilize-005",
+    "concept": "feedback-loops-amplify-or-stabilize",
+    "title": "Feedback loops amplify or stabilize",
+    "topic": "Pattern Recognition",
+    "depth": 5,
+    "connections": [
+      "stocks-and-flows",
+      "delay-causes-oscillation",
+      "emergence-the-whole-surprises"
+    ],
+    "idea": "When the output of a process feeds back as input, you get a loop. **Positive feedback amplifies** (microphone -> speaker -> microphone = screech). **Negative feedback stabilizes** (thermostat detects heat -> turns off heater -> cools -> turns on). Most complex systems are tangles of both.",
+    "example": "Social media: you post -> get likes -> feel good -> post more -> get more likes. That's positive feedback -- it amplifies. But there's also negative feedback: post too much -> people unfollow -> fewer likes -> you post less.",
+    "probe": "A bank run is pure positive feedback: one person withdraws -> others panic -> more withdraw -> more panic. What would a negative feedback mechanism look like that could stop it? (This is literally what deposit insurance was designed to be.)"
+  },
+  {
+    "id": "indirection-the-power-of-one-more-layer-014",
+    "concept": "indirection-the-power-of-one-more-layer",
+    "title": "Indirection: the power of one more layer",
+    "topic": "Programming Concepts",
+    "depth": 3,
+    "connections": [
+      "recursion-self-reference-that-bottoms-out",
+      "state-the-hidden-variable",
+      "abstraction-is-pattern-extraction"
+    ],
+    "idea": "\"Any problem in CS can be solved by adding another level of indirection.\" Instead of pointing to the thing, **point to something that points to the thing**. This lets you change what the pointer targets without changing everything that uses it.",
+    "example": "Your contact list has phone numbers. But people change numbers. DNS: you type `google.com`, not `142.250.80.46`. The name is indirection -- it can point to different servers without you knowing. Variables in code: the name `x` is indirection over a memory address.",
+    "probe": "Every URL is indirection (name -> IP). Every variable name is indirection (name -> value). Every API is indirection (interface -> implementation). What's the cost of all this indirection? When does adding another layer make things worse?"
+  },
+  {
+    "id": "invariants-what-doesnt-change-003",
+    "concept": "invariants-what-doesnt-change",
+    "title": "Invariants: what doesn't change",
+    "topic": "Pattern Recognition",
+    "depth": 3,
+    "connections": [
+      "patterns-are-compression",
+      "symmetry-is-a-pattern-of-sameness"
+    ],
+    "idea": "The deepest patterns aren't about what changes -- they're about **what stays the same while everything else changes**. These are called invariants, and finding them is the master skill in both math and engineering.",
+    "example": "Shuffle a deck of cards however you like. The number of cards stays at 52. That's an invariant. Now: can you shuffle so that every red card has a black card next to it? *Knowing the invariant (52 cards, 26 red, 26 black) constrains what's possible.*",
+    "probe": "In a chess game, pieces move, get captured, positions change constantly. But what's an invariant? (Hint: think about the color of the square a bishop sits on.)"
+  },
+  {
+    "id": "logarithms-are-about-orders-of-magnitude-009",
+    "concept": "logarithms-are-about-orders-of-magnitude",
+    "title": "Logarithms are about orders of magnitude",
+    "topic": "Math Intuition",
+    "depth": 1,
+    "connections": [
+      "exponential-growth-the-doubling-trick",
+      "patterns-are-compression"
+    ],
+    "idea": "A logarithm answers: **how many times do I multiply?** That's it. `log10(1000) = 3` because 10 x 10 x 10 = 1000. Logarithms turn multiplication into addition and turn exponential growth into straight lines. That's why they're everywhere.",
+    "example": "```\n1         -> log10 = 0\n10        -> log10 = 1\n100       -> log10 = 2\n1,000     -> log10 = 3\n1,000,000 -> log10 = 6\n```\nEach step is 10x bigger, but the log only goes up by 1. This is how your ears work -- a sound 10x more powerful sounds only \"one step\" louder. Decibels are logarithmic.",
+    "probe": "The Richter scale is logarithmic. A magnitude 7 earthquake is *10 times* more powerful than a 6, and *100 times* more than a 5. Why would scientists choose a scale that hides how dramatic the differences really are?"
+  },
+  {
+    "id": "patterns-are-compression-001",
+    "concept": "patterns-are-compression",
+    "title": "Patterns are compression",
+    "topic": "Pattern Recognition",
+    "depth": 1,
+    "connections": [
+      "abstraction-is-pattern-extraction",
+      "invariants-what-doesnt-change"
+    ],
+    "idea": "A pattern is anything that lets you **predict what comes next** without seeing it. The more accurately you can predict, the deeper the pattern you've found. This is literally what compression algorithms do -- find patterns to make data smaller.",
+    "example": "The sequence `2, 4, 6, 8, ...` -- you instantly know the next number is 10. Your brain compressed the rule to \"add 2.\" But `2, 4, 6, 8, 11, ...` breaks the pattern. That discomfort you feel? That's your pattern recognizer screaming.",
+    "probe": "A random sequence like `7, 3, 9, 1, 5, ...` has no pattern -- which means it *can't be compressed*. Does this mean randomness contains the most information? (Surprisingly, yes -- this is a real result in information theory.)"
+  },
+  {
+    "id": "probability-updating-beliefs-011",
+    "concept": "probability-updating-beliefs",
+    "title": "Probability: updating beliefs",
+    "topic": "Math Intuition",
+    "depth": 3,
+    "connections": [
+      "exponential-growth-the-doubling-trick",
+      "logarithms-are-about-orders-of-magnitude"
+    ],
+    "idea": "Probability isn't about coins and dice -- it's a **language for reasoning under uncertainty**. The core move: you have a belief (prior), you see evidence, you update. This is Bayes' theorem, and it's how rational thinking works.",
+    "example": "You hear hoofbeats. Prior belief: probably horses (you're in Texas). But you're at the zoo. Updated belief: maybe zebras. You see black-and-white stripes through the fence. Updated again: almost certainly zebras. Each piece of evidence shifts your belief.",
+    "probe": "A medical test is 99% accurate. You test positive for a disease that affects 1 in 10,000 people. What's the chance you actually have it? (It's much lower than 99% -- work through why. This is the most common probability mistake people make.)"
+  },
+  {
+    "id": "recursion-self-reference-that-bottoms-out-012",
+    "concept": "recursion-self-reference-that-bottoms-out",
+    "title": "Recursion: self-reference that bottoms out",
+    "topic": "Programming Concepts",
+    "depth": 1,
+    "connections": [
+      "state-the-hidden-variable",
+      "indirection-the-power-of-one-more-layer",
+      "abstraction-is-pattern-extraction"
+    ],
+    "idea": "Recursion is when something is **defined in terms of a smaller version of itself**, plus a base case that stops it. Without the base case, you get infinite regress. With it, you get an elegant way to solve problems that have nested structure.",
+    "example": "```\nHow to count people in a line:\n1. If no one is in front of you: say \"1\"\n2. Otherwise: ask the person ahead\n   to count, then add 1\n```\nEach person solves a smaller problem (shorter line) until someone hits the base case (no one ahead). The answer builds up as the calls return.",
+    "probe": "Russian nesting dolls are recursive -- each contains a smaller version of itself. File system folders are recursive -- each can contain more folders. What makes some problems *naturally* recursive vs. just loopy?"
+  },
+  {
+    "id": "state-the-hidden-variable-013",
+    "concept": "state-the-hidden-variable",
+    "title": "State: the hidden variable",
+    "topic": "Programming Concepts",
+    "depth": 2,
+    "connections": [
+      "recursion-self-reference-that-bottoms-out",
+      "indirection-the-power-of-one-more-layer",
+      "feedback-loops-amplify-or-stabilize"
+    ],
+    "idea": "A function with no state always gives the same output for the same input. A function *with* state can give **different outputs depending on what happened before**. Most bugs come from unexpected state. Most complexity comes from managing it.",
+    "example": "A light switch: same input (flip), different output (on -> off, off -> on). The switch has *state* -- it remembers whether it's on or off. A calculator with a memory button has state. A pure math function like sin(x) does not.",
+    "probe": "A traffic light cycles green -> yellow -> red -> green. It's stateful -- the next color depends on the current one. But the *sequence* is fixed. Is a traffic light more or less complex than a light switch? What makes state hard to reason about?"
+  },
+  {
+    "id": "stocks-and-flows-006",
+    "concept": "stocks-and-flows",
+    "title": "Stocks and flows",
+    "topic": "Systems Thinking",
+    "depth": 1,
+    "connections": [
+      "feedback-loops-amplify-or-stabilize",
+      "delay-causes-oscillation"
+    ],
+    "idea": "Every system has **stocks** (accumulations -- things you can count at a moment) and **flows** (rates -- things you measure per unit time). Confusion between stocks and flows is the #1 cause of bad reasoning about systems.",
+    "example": "A bathtub. **Stock:** water in the tub (gallons). **Inflow:** faucet (gallons/minute). **Outflow:** drain (gallons/minute). The water level rises when inflow > outflow. Obvious here -- but people confuse stock and flow constantly with money, population, CO2.",
+    "probe": "National debt is a *stock*. The deficit is a *flow*. If the deficit drops from $1T to $500B, is the debt going up or down? (Up -- the deficit is still positive, so the stock is still growing, just slower.)"
+  },
+  {
+    "id": "symmetry-is-a-pattern-of-sameness-004",
+    "concept": "symmetry-is-a-pattern-of-sameness",
+    "title": "Symmetry is a pattern of sameness",
+    "topic": "Pattern Recognition",
+    "depth": 4,
+    "connections": [
+      "invariants-what-doesnt-change",
+      "patterns-are-compression"
+    ],
+    "idea": "Symmetry means: you can **transform something and it looks the same**. This isn't just about mirrors. Rotating a square 90 degrees gives the same shape. Translating a wallpaper pattern gives the same design. Every symmetry is a transformation that preserves structure.",
+    "example": "The equation `x\u00b2 + y\u00b2 = 1` (a circle). Swap x and y -- still true. Negate x -- still true. Rotate by any angle -- still true. The circle has *infinite* symmetry, which is why it shows up everywhere in nature.",
+    "probe": "A square has exactly 8 symmetries (4 rotations + 4 reflections). A circle has infinite. What shape has exactly 1 symmetry -- only the identity (doing nothing)?"
+  }
+]

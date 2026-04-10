@@ -1,0 +1,6 @@
+name: Delay causes oscillation
+cluster: systems-thinking
+depth: 1
+connections:
+  - {to: feedback-loops-amplify-or-stabilize, weight: 0.8}
+  - {to: stocks-and-flows, weight: 0.7}

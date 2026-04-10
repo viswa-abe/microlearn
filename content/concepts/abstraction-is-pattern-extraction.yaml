@@ -1,0 +1,6 @@
+name: Abstraction is pattern extraction
+cluster: pattern-recognition
+depth: 1
+connections:
+  - {to: patterns-are-compression, weight: 0.8}
+  - {to: invariants-what-doesnt-change, weight: 0.7}
